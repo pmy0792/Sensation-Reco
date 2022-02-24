@@ -5,7 +5,7 @@ import json
 import numpy as np
 from scipy.sparse.linalg import svds
 
-url='http://ation-server.seohyuni.com/swagger-ui.html'
+url='http://ation-server.seohyuni.com'
 def get_data_from_api():
     res = requests.get(url+'/api/recommend/view-matrix')
     history=json.loads(res.content)
