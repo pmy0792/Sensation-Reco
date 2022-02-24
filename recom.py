@@ -5,12 +5,13 @@ import json
 import numpy as np
 from scipy.sparse.linalg import svds
 
+url='http://ation-server.seohyuni.com/swagger-ui.html'
 def get_data_from_api():
-    res = requests.get('http://52.78.105.195:8081/api/recommend/view-matrix')
+    res = requests.get(url+'/api/recommend/view-matrix')
     history=json.loads(res.content)
-    res=requests.get('http://52.78.105.195:8081/api/recommend/insight-matrix')
+    res=requests.get(url+'/api/recommend/insight-matrix')
     insights = json.loads(res.content)
-    res=requests.get('http://52.78.105.195:8081/api/recommend/user-matrix')
+    res=requests.get(url+'/api/recommend/user-matrix')
 
     user_id_list=json.loads(res.content)
 
