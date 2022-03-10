@@ -12,8 +12,11 @@ def get_data_from_api():
     res=requests.get(url+'/api/recommend/insight-matrix')
     insights = json.loads(res.content)
     res=requests.get(url+'/api/recommend/user-matrix')
+    user_id_list = json.loads(res.content)
+    print("History: ",history)
+    print("Insights: ",insights)
+    print("Users:",user_id_list)
 
-    user_id_list=json.loads(res.content)
 
     #dummy data
     '''
@@ -49,18 +52,21 @@ def get_data_from_api():
 
     insight_df=insight_df.astype({'insight_id':'int'})
     #user_insight_data=pd.merge(history_df,insight_df, on='insight_id')
-
+    print("history df:\n",history_df)
+    print("insight_df:\n",insight_df)
     user_insight_history=history_df.pivot_table(
         index='user_id',
         columns='insight_id',
         values='seen',
         aggfunc='first').fillna(0)
 
+
+    print("user_insight_history:","\n",user_insight_history)
     matrix=user_insight_history.values
     user_seen_mean = np.mean(matrix,axis=1)
     normalized= matrix - user_seen_mean.reshape(-1,1)
-
-    U,sigma,Vt=svds(normalized,k=3)
+    print("normalized: \n",normalized)
+    U,sigma,Vt=svds(normalized,k=1)
 
     sigma=np.diag(sigma)
     svd_user_predicted=np.dot(np.dot(U,sigma),Vt)+ user_seen_mean.reshape(-1,1)
@@ -85,3 +91,5 @@ def recommend_insights(df_svd_preds, user_id, insight_df, history_df, num_recomm
 def get_rec(user_id):
     df_svd_preds,insight_df,history_df=get_data_from_api()
     return recommend_insights(df_svd_preds,user_id,insight_df,history_df)
+
+get_data_from_api()
