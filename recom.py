@@ -1,4 +1,6 @@
 import json
+import random
+
 import pandas as pd
 import requests
 import json
@@ -90,6 +92,8 @@ def recommend_insights(df_svd_preds, user_id, insight_df, history_df, num_recomm
 
 def get_rec(user_id):
     df_svd_preds,insight_df,history_df=get_data_from_api()
+    if (user_id not in history_df["user_id"].values):
+        return 4*random.uniform(1,insight_df.shape[0])
     return recommend_insights(df_svd_preds,user_id,insight_df,history_df)
 
 get_data_from_api()
