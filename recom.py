@@ -95,5 +95,3 @@ def get_rec(user_id):
     if (user_id not in history_df["user_id"].values):
         return 4*random.uniform(1,insight_df.shape[0])
     return recommend_insights(df_svd_preds,user_id,insight_df,history_df)
-
-get_data_from_api()
