@@ -74,6 +74,7 @@ def get_data_from_api():
 
     sigma = np.diag(sigma)
     svd_user_predicted = np.dot(np.dot(U, sigma), Vt) + user_seen_mean.reshape(-1, 1)
+
     df_svd_preds = pd.DataFrame(svd_user_predicted,
                                 columns=user_insight_history.columns,
                                 index=user_insight_history.index
@@ -96,6 +97,10 @@ def recommend_insights(df_svd_preds, user_id, insight_df, history_df, num_recomm
                                                                                            ascending=False)
     recommendations = recommendations[:num_recommendations]
     recommendations = recommendations['insight_id'].to_list()
+    while len(recommendations) < 4:
+        spare_rec = random.sample(range(1, insight_df.shape[0]), 1)
+        if spare_rec[0] not in recommendations:
+            recommendations += spare_rec
     return recommendations
 
 

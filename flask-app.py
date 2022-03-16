@@ -27,4 +27,4 @@ class Algorithm(Resource):
 def home():
     return "Home"
 
-app.run(host='127.0.0.1',debug=True,port=5001)
+app.run(host='0.0.0.0',debug=True,port=5001)
