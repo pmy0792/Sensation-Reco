@@ -54,22 +54,15 @@ def get_data_from_api():
 
     insight_df = insight_df.astype({'insight_id': 'int'})
     # user_insight_data=pd.merge(history_df,insight_df, on='insight_id')
-    print("history df:\n", history_df)
-    print("insight_df:\n", insight_df)
     user_insight_history = history_df.pivot_table(
         index='user_id',
         columns='insight_id',
         values='seen',
         aggfunc='first').fillna(0)
 
-    print("user_insight_history:", "\n", user_insight_history)
-    print("\n\n\n")
-    print(user_insight_history.index)
-    print("\n\n\n")
     matrix = user_insight_history.values
     user_seen_mean = np.mean(matrix, axis=1)
     normalized = matrix - user_seen_mean.reshape(-1, 1)
-    print("normalized: \n", normalized)
     U, sigma, Vt = svds(normalized, k=1)
 
     sigma = np.diag(sigma)
