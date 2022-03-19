@@ -2,16 +2,19 @@ from recom import *
 from flask import Flask
 from flask_restx import Resource,Api
 from flask_cors import CORS
-from flask import url_for
+from flask import url_for,redirect
 app=Flask(__name__)
 CORS(app)
 
 api=Api(app,version='1.0',title='Recommendation API',description='API for Content Recommendation')
 ns=api.namespace('custom',description='operations')
 app.config.SWAGGER_UI_DOC_EXPANSION='full'
-app.add_url_rule('/favicon.ico',
-                 redirect_to=url_for("static",filename='favicon'))
-#@api.route('/<string:text>')
+#app.add_url_rule('/favicon.ico',
+                 #redirect_to=url_for("static",filename='favicon.ico'))
+
+@app.route('/favicon.ico')
+def favicon():
+    return redirect(url_for('static', filename='favicon.ico'))
 @api.response(200,'Found')
 @api.response(404,'Not found')
 @api.response(500,'Internal Error')
