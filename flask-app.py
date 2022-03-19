@@ -10,7 +10,7 @@ api=Api(app,version='1.0',title='Recommendation API',description='API for Conten
 ns=api.namespace('custom',description='operations')
 app.config.SWAGGER_UI_DOC_EXPANSION='full'
 app.add_url_rule('/favicon.ico',
-                 redirect_to=url_for(url_for="/",filename='favicon'))
+                 redirect_to=url_for("/",filename='favicon'))
 #@api.route('/<string:text>')
 @api.response(200,'Found')
 @api.response(404,'Not found')
